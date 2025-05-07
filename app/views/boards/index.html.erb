@@ -1,1 +1,68 @@
-<h1>ボード一覧</h1>
+<div class="d-flex align-items-center justify-content-between w-100">
+  <h1 class="mb-0">掲示板一覧</h1>
+  <div class="boards__linkBox">
+    <a class="btn btn-outline-dark">新規作成</a>
+  </div>
+</div>
+
+<div class="boards-table-container">
+  <table class="boards-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>タイトル</th>
+        <th>作成者</th>
+        <th>作成日時</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @boards.present? %>
+        <% @boards.each do |board| %>
+          <tr>
+            <td><%= board.id %></td>
+            <td><%= board.title %></td>
+            <td><%= board.user&.name || '不明' %></td>
+            <td><%= l(board.created_at, format: :long) if board.created_at %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="4" style="text-align: center;">掲示板がありません</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .boards-table-container {
+    margin-top: 20px;
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .boards-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .boards-table th {
+    background-color: #000;
+    color: #fff;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  .boards-table td {
+    background-color: #fff;
+    color: #000;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .boards-table tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+</style>
