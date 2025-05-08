@@ -13,7 +13,8 @@
         <th>タイトル</th>
         <th>作成者</th>
         <th>作成日時</th>
-        <th>操作</th>
+        <th>編集</th>
+        <th>削除</th>
       </tr>
     </thead>
     <tbody>
@@ -25,6 +26,7 @@
             <td><%= board.author_name || '不明' %></td>
             <td><%= board.created_at.to_fs(:datetime_jp) %></td>
             <td><%= link_to '編集', edit_board_path(board), class: 'btn btn-sm btn-outline-success' %></td>
+            <td><%= link_to '削除', board_path(board), method: :destroy, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-sm btn-outline-danger' %></td>
           </tr>
         <% end %>
       <% else %>
