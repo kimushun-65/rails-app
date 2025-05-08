@@ -12,8 +12,8 @@
         <th>ID</th>
         <th>タイトル</th>
         <th>作成者</th>
-        <th>本文</th>
         <th>作成日時</th>
+        <th>操作</th>
       </tr>
     </thead>
     <tbody>
@@ -23,8 +23,8 @@
             <td><%= board.id %></td>
             <td><%= link_to board.title, "/boards/#{board.id}", class: "text-dark" %></td>
             <td><%= board.author_name || '不明' %></td>
-            <td><%= board.body %></td>
             <td><%= board.created_at.to_fs(:datetime_jp) %></td>
+            <td><%= link_to '編集', edit_board_path(board), class: 'btn btn-sm btn-outline-success' %></td>
           </tr>
         <% end %>
       <% else %>

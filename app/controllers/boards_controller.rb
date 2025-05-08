@@ -20,6 +20,19 @@ class BoardsController < ApplicationController
     @board = Board.find(params[:id])
   end
 
+  def edit
+    @board = Board.find(params[:id])
+  end
+
+  def update
+    @board = Board.find(params[:id])
+    if @board.update(board_params)
+      redirect_to @board, notice: '掲示板を更新しました'
+    else
+      render :edit
+    end
+  end
+
   private
 
   def board_params
