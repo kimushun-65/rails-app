@@ -1,6 +1,8 @@
 class BoardsController < ApplicationController
+  before_action :set_target_board, only: [:show, :edit, :update, :destroy]
+
   def index
-    @boards =Board.all
+    @boards =Board.page(params[:page]).per(10)
   end
 
   def new
@@ -17,15 +19,12 @@ class BoardsController < ApplicationController
   end
   
   def show
-    @board = Board.find(params[:id])
   end
 
   def edit
-    @board = Board.find(params[:id])
   end
 
   def update
-    @board = Board.find(params[:id])
     if @board.update(board_params)
       redirect_to @board, notice: '掲示板を更新しました'
     else
@@ -34,7 +33,6 @@ class BoardsController < ApplicationController
   end
 
   def destroy
-    @board = Board.find(params[:id])
     @board.destroy
     redirect_to boards_path, notice: '掲示板を削除しました'
   end
@@ -43,5 +41,8 @@ class BoardsController < ApplicationController
 
   def board_params
     params.require(:board).permit(:author_name, :title, :body)
+  end
+  def set_target_board
+    @board = Board.find(params[:id])
   end
 end
