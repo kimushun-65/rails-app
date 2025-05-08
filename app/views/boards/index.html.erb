@@ -24,7 +24,7 @@
             <td><%= board.title %></td>
             <td><%= board.author_name || '不明' %></td>
             <td><%= board.body %></td>
-            <td><%= l(board.created_at, format: :long) if board.created_at %></td>
+            <td><%= board.created_at.to_fs(:datetime_jp) %></td>
           </tr>
         <% end %>
       <% else %>
