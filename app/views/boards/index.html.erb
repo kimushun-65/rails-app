@@ -1,6 +1,10 @@
 <div class="d-flex align-items-center justify-content-between w-100">
   <h1 class="mb-0">掲示板一覧</h1>
   <div class="boards__linkBox">
+    <%= form_tag boards_path, method: :get do %>
+      <%= select_tag :tag_id, options_from_collection_for_select(Tag.all, :id, :name, params[:tag_id]), include_blank: "タグで絞り込み" %>
+      <%= submit_tag "検索", class: "btn btn-outline-dark" %>
+    <% end %>
     <a href="/boards/new" class="btn btn-outline-dark">新規作成</a>
   </div>
 </div>
