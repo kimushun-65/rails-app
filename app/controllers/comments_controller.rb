@@ -9,6 +9,9 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    @comment = Comment.find(params[:id])
+    @comment.destroy
+    redirect_to board_path(@comment.board), notice: 'コメントを削除しました'
   end
 
   private

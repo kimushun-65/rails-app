@@ -1,3 +1,4 @@
+<%= render "shared/error_message", board: board %>
 <%= form_with model: board, local: true, class: "board-form" do |f| %>
   <% if board.errors.any? %>
     <div class="alert alert-danger">
