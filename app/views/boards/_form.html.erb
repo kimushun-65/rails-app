@@ -1,20 +1,11 @@
 <%= render "shared/error_message", board: board %>
 <%= form_with model: board, local: true, class: "board-form" do |f| %>
-  <% if board.errors.any? %>
-    <div class="alert alert-danger">
-      <h2><%= pluralize(board.errors.count, "error") %> prohibited this board from being saved:</h2>
-      <ul>
-        <% board.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-  
   <div class="board-form-container">
-    <div class="form-group">
-      <%= f.label :author_name, "名前" %>
-      <%= f.text_field :author_name, class: "form-control #{'is-invalid' if board.errors.include?(:author_name)}" %>
+    <div class="form-group mb-4">
+      <%= f.label :author_name, "名前", class: "form-label fw-bold" %>
+      <%= f.text_field :author_name, 
+          class: "form-control #{'is-invalid' if board.errors.include?(:author_name)}",
+          placeholder: "お名前を入力してください" %>
       <% if board.errors.include?(:author_name) %>
         <div class="invalid-feedback">
           <%= board.errors.full_messages_for(:author_name).join(', ') %>
@@ -22,9 +13,11 @@
       <% end %>
     </div>
     
-    <div class="form-group">
-      <%= f.label :title, "タイトル" %>
-      <%= f.text_field :title, class: "form-control #{'is-invalid' if board.errors.include?(:title)}" %>
+    <div class="form-group mb-4">
+      <%= f.label :title, "タイトル", class: "form-label fw-bold" %>
+      <%= f.text_field :title, 
+          class: "form-control #{'is-invalid' if board.errors.include?(:title)}",
+          placeholder: "タイトルを入力してください" %>
       <% if board.errors.include?(:title) %>
         <div class="invalid-feedback">
           <%= board.errors.full_messages_for(:title).join(', ') %>
@@ -32,101 +25,122 @@
       <% end %>
     </div>
     
-    <div class="form-group">
-      <%= f.label :body, "本文" %>
-      <%= f.text_area :body, class: "form-control #{'is-invalid' if board.errors.include?(:body)}", rows: 10 %>
+    <div class="form-group mb-4">
+      <%= f.label :body, "本文", class: "form-label fw-bold" %>
+      <%= f.text_area :body, 
+          class: "form-control #{'is-invalid' if board.errors.include?(:body)}", 
+          rows: 10,
+          placeholder: "本文を入力してください" %>
       <% if board.errors.include?(:body) %>
         <div class="invalid-feedback">
           <%= board.errors.full_messages_for(:body).join(', ') %>
         </div>
       <% end %>
     </div>
+
+    <div class="form-group mb-4">
+      <label class="form-label fw-bold">タグ</label>
+      <div class="tag-container">
+        <%= f.collection_check_boxes(:tag_ids, Tag.all, :id, :name) do |tag| %>
+          <div class="form-check">
+            <%= tag.label class: 'form-check-label' do %>
+              <%= tag.check_box class: 'form-check-input' %>
+              <%= tag.text %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
     
     <div class="form-group text-center">
-      <%= f.submit "保存", class: "btn btn-primary" %>
+      <%= f.submit "保存", class: "btn btn-primary px-5 py-2" %>
     </div>
   </div>
 <% end %>
 
 <style>
+  .board-form {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
   .board-form-container {
-    margin-top: 20px;
     background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
+
   .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
   }
-  
-  .form-control.is-invalid {
-    border-color: #dc3545;
-    padding-right: calc(1.5em + 0.75rem);
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right calc(0.375em + 0.1875rem) center;
-    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
   }
-  
-  .invalid-feedback {
-    display: block;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 80%;
-    color: #dc3545;
-  }
-  
-  .alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    padding: 0.75rem 1.25rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: 0.25rem;
-  }
-  
-  .alert-danger h2 {
-    font-size: 1.2rem;
+
+  .form-label {
+    color: #495057;
     margin-bottom: 0.5rem;
   }
-  
-  .alert-danger ul {
-    margin-bottom: 0;
-    padding-left: 1.5rem;
-  }
-  
+
   textarea.form-control {
+    min-height: 200px;
     resize: vertical;
   }
-  
+
   .btn-primary {
     background-color: #007bff;
-    color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
   }
-  
+
   .btn-primary:hover {
-    background-color: #0069d9;
+    background-color: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+  }
+
+  .form-check {
+    margin: 0;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+    transition: all 0.2s ease;
+  }
+
+  .form-check:hover {
+    background-color: #f8f9fa;
+    border-color: #007bff;
+  }
+
+  .form-check-input:checked + .form-check-label {
+    color: #007bff;
+    font-weight: 500;
+  }
+
+  .form-check-input {
+    margin-right: 0.5rem;
+  }
+
+  .invalid-feedback {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
   }
 </style>

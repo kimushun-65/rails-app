@@ -43,7 +43,7 @@ class BoardsController < ApplicationController
   private
 
   def board_params
-    params.require(:board).permit(:author_name, :title, :body)
+    params.require(:board).permit(:author_name, :title, :body, tag_ids: [])
   end
   def set_target_board
     @board = Board.find(params[:id])

@@ -15,4 +15,15 @@ if Rails.env == "development"
             body: "テスト本文#{i}"
         )
     end
+    Tag.create([
+        {name: "Ruby"},
+        {name: "Rails"},
+        {name: "JavaScript"},
+        {name: "HTML"},
+        {name: "CSS"},
+        {name: "SQL"},
+        {name: "Git"},
+        {name: "Docker"},
+        {name: "AWS"},
+    ])
 end
