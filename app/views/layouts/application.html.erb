@@ -248,6 +248,12 @@
             <li><%= link_to "Home", root_path rescue "/" %></li>
             <li><%= link_to "Boards", boards_path rescue "#" %></li>
             <li><%= link_to "New Board", new_board_path rescue "#" %></li>
+            <% if current_user %>
+              <li><%= link_to "My Page", my_page_path rescue "#" %></li>
+              <li><%= link_to "Logout", logout_path, method: :delete rescue "#" %></li>
+            <% else %>
+              <li><%= link_to "Login", login_path rescue "#" %></li>
+            <% end %>
           </ul>
         </nav>
       </div>
