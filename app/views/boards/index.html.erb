@@ -1,9 +1,12 @@
 <div class="d-flex align-items-center justify-content-between w-100">
   <h1 class="mb-0">掲示板一覧</h1>
   <div class="boards__linkBox">
-    <%= form_tag boards_path, method: :get do %>
-      <%= select_tag :tag_id, options_from_collection_for_select(Tag.all, :id, :name, params[:tag_id]), include_blank: "タグで絞り込み" %>
-      <%= submit_tag "検索", class: "btn btn-outline-dark" %>
+    <%= form_tag boards_path, method: :get, id: "tag-filter-form" do %>
+      <%= select_tag :tag_id, 
+          options_from_collection_for_select(Tag.all, :id, :name, params[:tag_id]), 
+          include_blank: "タグで絞り込み",
+          class: "form-select",
+          onchange: "this.form.submit()" %>
     <% end %>
     <a href="/boards/new" class="btn btn-outline-dark">新規作成</a>
   </div>
@@ -120,5 +123,23 @@
   .pagination .prev.disabled, .pagination .next.disabled {
     color: #999;
     cursor: not-allowed;
+  }
+
+  #tag-filter-form {
+    max-width: 300px;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-select {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 0.5rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
   }
 </style>
