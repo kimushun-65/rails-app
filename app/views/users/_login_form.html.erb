@@ -1,8 +1,14 @@
 <div class="login-container">
   <h1 class="text-center mb-4">ログイン</h1>
 
-  <%= form_for(:session, method: :post, url: login_path, html: { class: 'login-form' }) do |f| %>
+  <%= form_with scope: :session, url: login_path, method: :post, html: { class: 'login-form' } do |f| %>
     <div class="form-container">
+      <% if flash[:error] %>
+        <div class="alert alert-danger mb-4">
+          <%= flash[:error] %>
+        </div>
+      <% end %>
+
       <div class="form-group mb-4">
         <%= f.label :name, 'ユーザー名', class: 'form-label fw-bold' %>
         <%= f.text_field :name, 
@@ -80,5 +86,14 @@
     color: #333;
     font-size: 2rem;
     font-weight: 600;
+  }
+
+  .alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
   }
 </style> 
