@@ -62,3 +62,5 @@ group :development do
   gem "web-console"
   gem "pry-byebug"
 end
+
+gem "tailwindcss-rails", "~> 4.2"
