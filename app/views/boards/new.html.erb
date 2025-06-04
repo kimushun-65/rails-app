@@ -1,0 +1,10 @@
+<div class="container mt-4">
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <h1 class="mb-0">掲示板作成</h1>
+    <div class="boards__linkBox">
+      <%= link_to '掲示板一覧', boards_path, class: "btn btn-outline-dark" %>
+    </div>
+  </div>
+
+  <%= render 'form', board: @board %>
+</div>

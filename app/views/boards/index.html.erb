@@ -1,1 +1,145 @@
-<h1>ボード一覧</h1>
+<div class="d-flex align-items-center justify-content-between w-100">
+  <h1 class="mb-0">掲示板一覧</h1>
+  <div class="boards__linkBox">
+    <%= form_tag boards_path, method: :get, id: "tag-filter-form" do %>
+      <%= select_tag :tag_id, 
+          options_from_collection_for_select(Tag.all, :id, :name, params[:tag_id]), 
+          include_blank: "タグで絞り込み",
+          class: "form-select",
+          onchange: "this.form.submit()" %>
+    <% end %>
+    <a href="/boards/new" class="btn btn-outline-dark">新規作成</a>
+  </div>
+</div>
+
+<div class="boards-table-container">
+  <table class="boards-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>タイトル</th>
+        <th>作成者</th>
+        <th>作成日時</th>
+        <th>編集</th>
+        <th>削除</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @boards.present? %>
+        <% @boards.each do |board| %>
+          <tr>
+            <td><%= board.id %></td>
+            <td><%= link_to board.title, "/boards/#{board.id}", class: "text-dark" %></td>
+            <td><%= board.author_name || '不明' %></td>
+            <td><%= board.created_at.to_fs(:datetime_jp) %></td>
+            <td><%= link_to '編集', edit_board_path(board), class: 'btn btn-sm btn-outline-success' %></td>
+            <td><%= button_to '削除', board_path(board), method: :delete, data: { turbo_confirm: '本当に削除しますか？' }, class: 'btn btn-sm btn-outline-danger' %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="4" style="text-align: center;">掲示板がありません</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="d-flex justify-content-center mt-4">
+  <%= paginate @boards %>
+</div>
+
+<style>
+  .boards-table-container {
+    margin-top: 20px;
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .boards-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .boards-table th {
+    background-color: #000;
+    color: #fff;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  .boards-table td {
+    background-color: #fff;
+    color: #000;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .boards-table tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  /* Pagination styles */
+  .pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+  }
+  
+  .pagination li {
+    margin: 0 3px;
+  }
+  
+  .pagination a, .pagination span {
+    display: inline-block;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+  }
+  
+  .pagination a:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .pagination .current {
+    background-color: #3498db;
+    color: #fff;
+    border-color: #3498db;
+  }
+  
+  .pagination .gap {
+    background: none;
+    border: none;
+  }
+  
+  .pagination .prev.disabled, .pagination .next.disabled {
+    color: #999;
+    cursor: not-allowed;
+  }
+
+  #tag-filter-form {
+    max-width: 300px;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-select {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 0.5rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
+  }
+</style>

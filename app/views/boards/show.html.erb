@@ -1,0 +1,149 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">掲示板詳細</h1>
+    <div>
+      <%= link_to '掲示板一覧に戻る', boards_path, class: 'btn btn-outline-primary' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h2 class="mb-0 fs-3"><%= @board.title %></h2>
+          <div class="d-flex align-items-center gap-3">
+            <% if @board.tags.any? %>
+              <div class="tags">
+                <% @board.tags.each do |tag| %>
+                  <span class="badge bg-info me-1"><%= tag.name %></span>
+                <% end %>
+              </div>
+            <% end %>
+            <% if @board.author_name.present? %>
+              <span class="badge bg-secondary">作成者: <%= @board.author_name %></span>
+            <% end %>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="board-content p-3">
+            <p class="lead"><%= @board.body %></p>
+          </div>
+          <div class="text-end mt-4">
+            <small class="text-muted">作成日時: <%= @board.created_at.to_fs(:datetime_jp) %></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- コメントリスト -->
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h3 class="mb-0 fs-4">コメント一覧</h3>
+          <span class="badge bg-secondary"><%= @board.comments.count %>件</span>
+        </div>
+        <div class="card-body">
+          <% if @board.comments.any? %>
+            <div class="comments-list d-flex flex-column">
+              <% @board.comments.order(created_at: :desc).each do |comment| %>
+                <%= render 'comments/comment', comment: comment %>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-center text-muted my-4">コメントはまだありません。</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <%= render 'comments/comments_form' %>
+</div>
+
+<style>
+  .board-content {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    min-height: 150px;
+  }
+  
+  .card-header {
+    border-bottom: 2px solid #eaeaea;
+  }
+  
+  .card {
+    border: none;
+    transition: transform 0.2s;
+  }
+  
+  .shadow {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* コメントリストのスタイル */
+  .comments-list {
+    max-height: 500px;
+    overflow-y: auto;
+    gap: 1rem;
+  }
+  
+  .comment-item {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border-left: 3px solid #007bff;
+    width: 100%;
+  }
+  
+  .comment-item:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* コメントフォームのスタイル */
+  .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+    transform: translateY(-2px);
+  }
+  
+  textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .badge {
+    padding: 0.5em 0.8em;
+    font-weight: 500;
+    font-size: 0.85rem;
+  }
+
+  .badge.bg-info {
+    background-color: #17a2b8 !important;
+  }
+
+  .badge.bg-secondary {
+    background-color: #6c757d !important;
+  }
+</style>

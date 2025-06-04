@@ -1,0 +1,41 @@
+<% if board.errors.any? %>
+  <div class="alert alert-danger">
+    <h2 class="h5 mb-3">
+      <%= pluralize(board.errors.count, "error") %> prohibited this board from being saved:
+    </h2>
+    <ul class="mb-0 ps-3">
+      <% board.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<style>
+  .alert-danger {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .alert-danger h2 {
+    color: #721c24;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .alert-danger ul {
+    list-style-type: disc;
+  }
+
+  .alert-danger li {
+    margin-bottom: 0.25rem;
+  }
+
+  .alert-danger li:last-child {
+    margin-bottom: 0;
+  }
+</style> 

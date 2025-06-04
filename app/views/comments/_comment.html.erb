@@ -1,0 +1,67 @@
+<div class="comment-item">
+  <div class="d-flex align-items-center gap-3 w-100" style="flex-wrap: nowrap;">
+    <div class="comment-name" style="min-width: 100px; flex-shrink: 0;">
+      <%= comment.name %>
+    </div>
+    <div class="comment-date" style="min-width: 150px; flex-shrink: 0;">
+      <%= comment.created_at.to_fs(:datetime_jp) %>
+    </div>
+    <div class="comment-text" style="flex: 1; min-width: 0;">
+      <%= comment.comment %>
+    </div>
+    <div style="flex-shrink: 0;">
+      <%= button_to comment_path(comment), 
+          method: :delete, 
+          class: "btn btn-sm btn-outline-danger",
+          form: { data: { turbo_confirm: "本当に削除しますか？" } } do %>
+        <i class="fas fa-trash-alt"></i> 削除
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<style>
+  .comment-item {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+    transition: all 0.3s ease;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .comment-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-outline-danger {
+    border-width: 1px;
+    transition: all 0.2s ease;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .btn-outline-danger:hover {
+    transform: scale(1.05);
+  }
+
+  .comment-name {
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .comment-date {
+    color: #6c757d;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .comment-text {
+    padding: 0 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>
